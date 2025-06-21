@@ -34,6 +34,16 @@ ARG BUILD_TIME=""
 ENV NEXT_PUBLIC_BUILD_TIME=$BUILD_TIME
 ENV NEXT_PUBLIC_COMMIT_SHA=$COMMIT_SHA
 
+ENV SERVER_PORT=3000
+
+ENV DB_TYPE=mysql
+ENV DB_HOST=localhost
+ENV DB_PORT=3306
+ENV DB_USERNAME=root
+ENV DB_PASSWORD=password
+ENV DB_DATABASE=fsmeet
+ENV DB_SSL_OPTIONS='{ "rejectUnauthorized": false }'
+
 ## Switch to less privileged user
 USER node
 

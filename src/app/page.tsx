@@ -1,36 +1,46 @@
+import { Button } from '@/components/ui/button';
+import Link from 'next/link';
 import { redirect, RedirectType } from 'next/navigation';
 
-export default async function Home(props: { searchParams: Promise<{ redir: string }> }) {
+export default async function Home(props: { searchParams: Promise<{ id?: string }> }) {
   const searchParams = await props.searchParams;
-  const redir = searchParams.redir;
+  const projectId = searchParams.id;
 
-  // Redirect if redir parameter is provided
-  if (redir) {
-    console.info('Attempting to redirect to:', redir);
+  // Redirect if projectId parameter is provided
+  if (projectId) {
+    const res = await fetch(`http://localhost:${process.env.SERVER_PORT}/api/visit`, {
+      method: 'POST',
+      body: JSON.stringify({ projectId }),
+      headers: { 'Content-Type': 'application/json' },
+    });
 
-    // Validate that it's a proper URL
-    const url = new URL(redir);
-    // Only redirect if it's an external URL (has protocol)
-    if (url.protocol === 'http:' || url.protocol === 'https:') {
-      console.info('Valid URL detected, redirecting to:', redir);
-      redirect(url.toString(), RedirectType.replace);
-    } else {
-      console.error('Invalid protocol:', url.protocol);
-    }
+    const body = await res.json();
+
+    console.info('Attempting to redirect to:', body.payload.destination);
+    redirect(body.payload.destination, RedirectType.replace);
   }
 
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <div className="mt-4 p-4 bg-blue-100 border border-blue-300 rounded">
-          {redir ? (
+      <main className="flex flex-col gap-[64px] row-start-2 items-center sm:items-start">
+        <div className="p-4 bg-blue-100 border border-blue-300 rounded">
+          {projectId ? (
             <>
-              <p>{`Redirect parameter: ${redir}`}</p>
+              <p>{`Project id: ${projectId}`}</p>
               <p className="text-sm text-gray-600">({`Redirect should have happened automatically`})</p>
             </>
           ) : (
-            <p>{`No redirect parameter`}</p>
+            <>
+              <p>{`No project id provided.`}</p>
+              <p>{`Not redirecting.`}</p>
+            </>
           )}
+        </div>
+
+        <div className="flex justify-center hover:underline w-full">
+          <Link href={'/project'}>
+            <Button>{`Create new project`}</Button>
+          </Link>
         </div>
       </main>
     </div>
