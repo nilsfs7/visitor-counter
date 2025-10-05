@@ -97,13 +97,19 @@ export default function Project() {
         {counterUrl && (
           <div className="flex flex-col w-full items-center gap-2 p-4">
             <p className="text-sm">{counterUrl}</p>
-            <Button
-              onClick={() => {
-                handleCopyClicked(counterUrl);
-              }}
-            >
-              {'Copy to clipboard'}
-            </Button>
+
+            <div className="flex gap-2">
+              <Button
+                onClick={() => {
+                  handleCopyClicked(counterUrl);
+                }}
+              >
+                {'Copy to clipboard'}
+              </Button>
+              <a target="_blank" rel="noopener noreferrer" href={`${counterUrl}&test=1`}>
+                <Button>{'Test link'}</Button>
+              </a>
+            </div>
           </div>
         )}
       </main>
