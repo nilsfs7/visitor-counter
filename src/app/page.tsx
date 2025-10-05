@@ -2,15 +2,16 @@ import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { redirect, RedirectType } from 'next/navigation';
 
-export default async function Home(props: { searchParams: Promise<{ id?: string }> }) {
+export default async function Home(props: { searchParams: Promise<{ id?: string; test: string }> }) {
   const searchParams = await props.searchParams;
   const projectId = searchParams.id;
+  const isTest = searchParams.test === '1';
 
   // Redirect if projectId parameter is provided
   if (projectId) {
     const res = await fetch(`http://localhost:${process.env.SERVER_PORT}/api/visit`, {
       method: 'POST',
-      body: JSON.stringify({ projectId }),
+      body: JSON.stringify({ projectId, isTest }),
       headers: { 'Content-Type': 'application/json' },
     });
 

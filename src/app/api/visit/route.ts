@@ -9,11 +9,15 @@ export async function POST(request: NextRequest) {
 
     // Parse the request body
     const body = await request.json();
-    const { projectId } = body;
+    const { projectId, isTest } = body;
 
     // Validate input
-    if (!projectId || typeof projectId !== 'string') {
-      return NextResponse.json({ error: 'ProjectId is required and must be a string' }, { status: 400 });
+    if (projectId === undefined || typeof projectId !== 'string') {
+      return NextResponse.json({ error: 'projectId is required and must be a string' }, { status: 400 });
+    }
+
+    if (isTest === undefined || typeof isTest !== 'boolean') {
+      return NextResponse.json({ error: 'isTest is required and must be a boolean' }, { status: 400 });
     }
 
     // Get repository and store the value
@@ -22,8 +26,10 @@ export async function POST(request: NextRequest) {
       where: { id: projectId },
     });
 
-    const visitRepository = getVisitRepository();
-    visitRepository.save({ project: projectEntity });
+    if (!isTest) {
+      const visitRepository = getVisitRepository();
+      visitRepository.save({ project: projectEntity });
+    }
 
     return NextResponse.json({ payload: { destination: projectEntity.destination }, status: 200 });
   } catch (error) {
