@@ -52,7 +52,7 @@ export default async function Projects(props: { params: Promise<{ id: string }> 
           labels={['View count']}
           colors={['--chart-1']}
           title={project.name}
-          description={`${moment(project.created).format('MMMM Do YYYY')}: ${project.description}}`}
+          description={`${moment(project.created).format('MMMM Do YYYY')}: ${project.description}`}
         />
 
         <div className="w-full flex justify-between gap-2">
