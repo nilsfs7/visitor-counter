@@ -3,10 +3,12 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { copyToClipboard } from '@/lib/helper/copy-to-clipboard';
 import { Label } from '@radix-ui/react-label';
+import Link from 'next/link';
+import { ButtonCopyToClipboard } from '../../../components/button-to-clipboard';
+import { createProject } from '../../../infra/clients/project.client';
 
-export default function Project() {
+export default function NewProject() {
   const [counterUrl, setCounterUrl] = useState<string>();
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
@@ -29,27 +31,17 @@ export default function Project() {
       // Validate that it's a proper URL
       const url = new URL(destination);
 
-      const res = await fetch(`/api/project`, {
-        method: 'POST',
-        body: JSON.stringify({ name, description, destination: url.toString() }),
-        headers: { 'Content-Type': 'application/json' },
-      });
-
-      const body = await res.json();
-      setCounterUrl(body.payload.url);
+      const counterUrl = await createProject(name, description, url.toString());
+      setCounterUrl(counterUrl);
     } catch (error) {
       console.error(`Invalid url "${destination}".`, error);
     }
   };
 
-  const handleCopyClicked = async (value: string) => {
-    copyToClipboard(value);
-  };
-
   return (
     <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
       <main className="flex flex-col gap-[32px] row-start-2 items-center">
-        <div className="flex flex-col gap-2 p-4">
+        <div className="flex flex-col gap-2">
           <div>
             <Label>{`Project name`}</Label>
             <Input
@@ -95,23 +87,22 @@ export default function Project() {
         </div>
 
         {counterUrl && (
-          <div className="flex flex-col w-full items-center gap-2 p-4">
+          <div className="flex flex-col w-full items-center gap-2">
             <p className="text-sm">{counterUrl}</p>
 
-            <div className="flex gap-2">
-              <Button
-                onClick={() => {
-                  handleCopyClicked(counterUrl);
-                }}
-              >
-                {'Copy to clipboard'}
-              </Button>
+            <div className="flex justify-between gap-2">
+              <ButtonCopyToClipboard text={'Copy to clipboard'} content={counterUrl} />
+
               <a target="_blank" rel="noopener noreferrer" href={`${counterUrl}&test=1`}>
                 <Button>{'Test link'}</Button>
               </a>
             </div>
           </div>
         )}
+
+        <Link href={'/'}>
+          <Button>{`Back`}</Button>
+        </Link>
       </main>
     </div>
   );

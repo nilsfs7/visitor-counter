@@ -1,4 +1,4 @@
-import { createDatabaseIfNotExists } from '@/lib/database';
+import { createDatabaseIfNotExists } from '@/infra/db/database';
 import { NextResponse } from 'next/server';
 
 export async function POST() {

@@ -1,5 +1,5 @@
 import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { VisitEntity } from './visit.entity';
+import { ViewEntity } from './view.entity';
 
 @Entity('project')
 export class ProjectEntity {
@@ -15,10 +15,10 @@ export class ProjectEntity {
   @Column()
   destination: string;
 
-  @OneToMany(() => VisitEntity, visit => visit.project, {
+  @OneToMany(() => ViewEntity, visit => visit.project, {
     cascade: true,
   })
-  visit: VisitEntity[];
+  view: ViewEntity[];
 
   @CreateDateColumn()
   created_at: Date;
