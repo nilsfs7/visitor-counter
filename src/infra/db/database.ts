@@ -1,8 +1,9 @@
 import { DataSource } from 'typeorm';
-import { VisitEntity } from './entities/visit.entity';
-import { ProjectEntity } from './entities/project.entity';
+
 import mysql from 'mysql2/promise';
 import 'reflect-metadata';
+import { ViewEntity } from './entities/view.entity';
+import { ProjectEntity } from './entities/project.entity';
 
 // Database configuration
 const dbConfig = {
@@ -43,7 +44,7 @@ export const AppDataSource = new DataSource({
   ...dbConfig,
   synchronize: true, // Auto-create tables (use false in production)
   logging: process.env.NODE_ENV === 'development',
-  entities: [VisitEntity, ProjectEntity],
+  entities: [ViewEntity, ProjectEntity],
   subscribers: [],
   migrations: [],
 });
@@ -61,8 +62,8 @@ export async function initializeDatabase() {
 }
 
 // Get repository for VisitorData
-export function getVisitRepository() {
-  return AppDataSource.getRepository(VisitEntity);
+export function getViewRepository() {
+  return AppDataSource.getRepository(ViewEntity);
 }
 
 export function getProjectRepository() {

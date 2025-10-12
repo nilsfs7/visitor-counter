@@ -1,4 +1,4 @@
-import { ensureDatabaseInitialized, getProjectRepository, getVisitRepository } from '@/lib/database';
+import { ensureDatabaseInitialized, getProjectRepository, getViewRepository } from '@/infra/db/database';
 import { NextRequest, NextResponse } from 'next/server';
 import { EntityNotFoundError } from 'typeorm';
 
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
     });
 
     if (!isTest) {
-      const visitRepository = getVisitRepository();
+      const visitRepository = getViewRepository();
       visitRepository.save({ project: projectEntity });
     }
 

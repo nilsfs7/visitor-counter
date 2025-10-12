@@ -1,6 +1,7 @@
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import { redirect, RedirectType } from 'next/navigation';
+import { createView } from '../infra/clients/view.client';
 
 export default async function Home(props: { searchParams: Promise<{ id?: string; test: string }> }) {
   const searchParams = await props.searchParams;
@@ -9,16 +10,10 @@ export default async function Home(props: { searchParams: Promise<{ id?: string;
 
   // Redirect if projectId parameter is provided
   if (projectId) {
-    const res = await fetch(`http://localhost:${process.env.SERVER_PORT}/api/visit`, {
-      method: 'POST',
-      body: JSON.stringify({ projectId, isTest }),
-      headers: { 'Content-Type': 'application/json' },
-    });
+    const destination = await createView(projectId, isTest);
 
-    const body = await res.json();
-
-    console.info('Attempting to redirect to:', body.payload.destination);
-    redirect(body.payload.destination, RedirectType.replace);
+    console.info('Attempting to redirect to:', destination);
+    redirect(destination, RedirectType.replace);
   }
 
   return (
@@ -38,8 +33,12 @@ export default async function Home(props: { searchParams: Promise<{ id?: string;
           )}
         </div>
 
-        <div className="flex justify-center hover:underline w-full">
-          <Link href={'/project'}>
+        <div className="flex flex-col items-center gap-2 w-full">
+          <Link href={'/projects'}>
+            <Button>{`View projects`}</Button>
+          </Link>
+
+          <Link href={'/projects/new'}>
             <Button>{`Create new project`}</Button>
           </Link>
         </div>
