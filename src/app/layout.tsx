@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Visitor Counter",
-  description: "Count visitors.",
+  description: "Count views.",
 };
 
 export default function RootLayout({

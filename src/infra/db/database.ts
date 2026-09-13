@@ -61,11 +61,12 @@ export async function initializeDatabase() {
   }
 }
 
-// Get repository for VisitorData
+// Get repository for ViewData
 export function getViewRepository() {
   return AppDataSource.getRepository(ViewEntity);
 }
 
+// Get repository for ProjectData
 export function getProjectRepository() {
   return AppDataSource.getRepository(ProjectEntity);
 }

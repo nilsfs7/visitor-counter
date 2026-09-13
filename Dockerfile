@@ -1,5 +1,5 @@
 # Build stage
-FROM node:22.16.0 AS build
+FROM node:24.21.0 AS build
 
 ## Declare build arguments
 ARG COMMIT_SHA=""
@@ -24,7 +24,7 @@ RUN yarn build
 
 
 # Run stage
-FROM node:22.16.0
+FROM node:24.21.0
 
 ## Declare build arguments
 ARG COMMIT_SHA=""

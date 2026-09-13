@@ -9,13 +9,13 @@ export async function getViews(projectId: string | null): Promise<View[]> {
   });
 
   if (response.ok) {
-    const body: any[] = (await response.json()).visits;
+    const body: any[] = (await response.json()).views;
 
     return body.map(item => {
       return { id: item.id, created: item.created_at };
     });
   } else {
-    throw Error(`Error fetching visits.`);
+    throw Error(`Error fetching views.`);
   }
 }
 

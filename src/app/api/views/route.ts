@@ -27,8 +27,8 @@ export async function POST(request: NextRequest) {
     });
 
     if (!isTest) {
-      const visitRepository = getViewRepository();
-      visitRepository.save({ project: projectEntity });
+      const viewRepository = getViewRepository();
+      viewRepository.save({ project: projectEntity });
     }
 
     return NextResponse.json({ payload: { destination: projectEntity.destination }, status: 200 });

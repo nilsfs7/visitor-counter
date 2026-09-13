@@ -15,7 +15,7 @@ export class ProjectEntity {
   @Column()
   destination: string;
 
-  @OneToMany(() => ViewEntity, visit => visit.project, {
+  @OneToMany(() => ViewEntity, view => view.project, {
     cascade: true,
   })
   view: ViewEntity[];
