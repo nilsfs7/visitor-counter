@@ -16,10 +16,10 @@ WORKDIR /app
 COPY . .
 
 ## Install app dependencies
-RUN yarn
+RUN npm ci
 
 ## Build app
-RUN yarn build
+RUN npm run build
 
 
 

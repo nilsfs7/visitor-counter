@@ -7,5 +7,11 @@
 ## Start dev server
 
 ```bash
-yarn dev
+npm run dev
+```
+
+## Build Docker image
+
+```bash
+docker buildx build -t nilsfs7/visitor-counter:latest -f Dockerfile .
 ```
