@@ -43,30 +43,28 @@ export default async function Projects(props: { params: Promise<{ id: string }> 
   }
 
   return (
-    <div className="mx-2 overflow-y-auto">
-      <div className="flex flex-col p-2 gap-2">
-        <ChartArea
-          data={data.map(ds => {
-            return { date: ds.date.toString(), l1: ds.total };
-          })}
-          labels={['View count']}
-          colors={['--chart-1']}
-          title={project.name}
-          description={`${moment(project.created).format('MMMM Do YYYY')}: ${project.description}`}
-        />
+    <div className="box-border flex h-dvh flex-col gap-2 overflow-hidden p-2 max-sm:h-auto max-sm:min-h-dvh max-sm:overflow-y-auto">
+      <ChartArea
+        data={data.map(ds => {
+          return { date: ds.date.toString(), l1: ds.total };
+        })}
+        labels={['View count']}
+        colors={['--chart-1']}
+        title={project.name}
+        description={`${moment(project.created).format('MMMM Do YYYY')}: ${project.description}`}
+      />
 
-        <div className="w-full flex justify-between gap-2">
-          <Link href={'/projects'}>
-            <Button>{`Back`}</Button>
-          </Link>
+      <div className="flex w-full shrink-0 justify-between gap-2">
+        <Link href={'/projects'}>
+          <Button>{`Back`}</Button>
+        </Link>
 
-          <div className="flex gap-2">
-            <ButtonCopyToClipboard text={'Copy to clipboard'} content={`${process.env.NEXT_PUBLIC_SERVER_URL}?id=${project.id}`} />
+        <div className="flex gap-2">
+          <ButtonCopyToClipboard text={'Copy to clipboard'} content={`${process.env.NEXT_PUBLIC_SERVER_URL}?id=${project.id}`} />
 
-            <a target="_blank" rel="noopener noreferrer" href={`${project.destination}`}>
-              <Button>{'View page'}</Button>
-            </a>
-          </div>
+          <a target="_blank" rel="noopener noreferrer" href={`${project.destination}`}>
+            <Button>{'View page'}</Button>
+          </a>
         </div>
       </div>
     </div>
