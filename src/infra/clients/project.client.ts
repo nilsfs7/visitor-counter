@@ -38,19 +38,17 @@ export async function getProject(projectId: string | null): Promise<Project> {
 export async function createProject(name: string, description: string, destination: string): Promise<string> {
   const url = `${process.env.NEXT_PUBLIC_SERVER_URL}/api/projects`;
 
-  const body = JSON.stringify({ name, description, destination: destination.toString() });
-
   const response = await fetch(url, {
     method: 'POST',
-    body,
+    body: JSON.stringify({ name, description, destination: destination.toString() }),
     headers: { 'Content-Type': 'application/json' },
   });
 
   if (response.ok) {
     console.info('Creating project successful');
     return (await response.json()).payload.url;
-  } else {
-    const error = await response.json();
-    throw Error(error.message);
   }
+
+  const errorBody = await response.json().catch(() => ({}));
+  throw new Error(errorBody.error || errorBody.message || `Error creating project (${response.status}).`);
 }
