@@ -1,9 +1,10 @@
-import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { Entity, Column, CreateDateColumn, UpdateDateColumn, PrimaryColumn, OneToMany, BeforeInsert } from 'typeorm';
+import { createProjectId, PROJECT_ID_LENGTH } from '@/lib/id';
 import { ViewEntity } from './view.entity';
 
 @Entity('project')
 export class ProjectEntity {
-  @PrimaryGeneratedColumn('uuid', { name: 'id' })
+  @PrimaryColumn('varchar', { length: PROJECT_ID_LENGTH, name: 'id' })
   id: string;
 
   @Column()
@@ -25,4 +26,11 @@ export class ProjectEntity {
 
   @UpdateDateColumn()
   updated_at: Date;
+
+  @BeforeInsert()
+  assignId() {
+    if (!this.id) {
+      this.id = createProjectId();
+    }
+  }
 }
