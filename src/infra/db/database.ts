@@ -1,6 +1,7 @@
 import { DataSource } from 'typeorm';
 
-import mysql from 'mysql2/promise';
+import mysql from 'mysql2';
+import mysqlPromise from 'mysql2/promise';
 import 'reflect-metadata';
 import { ViewEntity } from './entities/view.entity';
 import { ProjectEntity } from './entities/project.entity';
@@ -14,13 +15,14 @@ const dbConfig = {
   password: process.env.DB_PASSWORD || '',
   database: process.env.DB_DATABASE || 'visitor_counter',
   ssl: JSON.parse(process.env.DB_SSL_OPTIONS || '{ "rejectUnauthorized": false }'),
+  driver: mysql,
 };
 
 // Create database if it doesn't exist
 export async function createDatabaseIfNotExists() {
   try {
     // Connect without specifying database
-    const connection = await mysql.createConnection({
+    const connection = await mysqlPromise.createConnection({
       host: dbConfig.host,
       port: dbConfig.port,
       user: dbConfig.username,
