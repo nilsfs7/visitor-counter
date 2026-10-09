@@ -4,10 +4,12 @@ FROM node:24.21.0 AS build
 ## Declare build arguments
 ARG COMMIT_SHA=""
 ARG BUILD_TIME=""
+ARG NEXT_PUBLIC_SERVER_URL=https://vc.dffb.org
 
-## Declare environment variables
+## Declare environment variables (NEXT_PUBLIC_* must be present at build time)
 ENV NEXT_PUBLIC_BUILD_TIME=$BUILD_TIME
 ENV NEXT_PUBLIC_COMMIT_SHA=$COMMIT_SHA
+ENV NEXT_PUBLIC_SERVER_URL=$NEXT_PUBLIC_SERVER_URL
 
 ## Create app directory
 WORKDIR /app
