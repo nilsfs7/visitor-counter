@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- [node:24.21.0](https://nodejs.org/en)
+- [node:26.13.1](https://nodejs.org/en)
 
 ## Start dev server
 
