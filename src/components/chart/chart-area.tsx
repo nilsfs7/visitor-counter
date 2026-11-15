@@ -3,6 +3,7 @@
 import { Area, AreaChart, CartesianGrid, XAxis, YAxis } from 'recharts';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
+import { cn } from '@/lib/utils';
 
 interface IChartArea {
   data: { date: string; l1: number; l2?: number; l3?: number; l4?: number; l5?: number }[];
@@ -11,9 +12,10 @@ interface IChartArea {
   title: string;
   description?: string;
   tickLine?: boolean;
+  className?: string;
 }
 
-export function ChartArea({ data, labels, colors = [], title, description, tickLine = true }: IChartArea) {
+export function ChartArea({ data, labels, colors = [], title, description, tickLine = true, className }: IChartArea) {
   const chartConfig = {
     l1: {
       label: labels[0],
@@ -22,13 +24,13 @@ export function ChartArea({ data, labels, colors = [], title, description, tickL
   } satisfies ChartConfig;
 
   return (
-    <Card>
-      <CardHeader>
+    <Card className={cn('flex min-h-0 flex-1 flex-col gap-3 overflow-hidden py-4', className)}>
+      <CardHeader className="shrink-0 px-4">
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <CardContent>
-        <ChartContainer config={chartConfig}>
+      <CardContent className="flex min-h-0 flex-1 flex-col px-4">
+        <ChartContainer config={chartConfig} className="aspect-auto! h-full w-full min-h-[12rem]">
           <AreaChart
             accessibilityLayer
             data={data}

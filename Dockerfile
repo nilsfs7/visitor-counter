@@ -1,5 +1,5 @@
 # Build stage
-FROM node:24.21.0 AS build
+FROM node:26.13.1 AS build
 
 ## Declare build arguments
 ARG COMMIT_SHA=""
@@ -26,7 +26,7 @@ RUN npm run build
 
 
 # Run stage
-FROM node:24.21.0
+FROM node:26.13.1
 
 ## Declare build arguments
 ARG COMMIT_SHA=""
